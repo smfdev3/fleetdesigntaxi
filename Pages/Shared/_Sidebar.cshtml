@@ -1,0 +1,40 @@
+@using DevExtreme.AspNet.Mvc
+@inject Microsoft.AspNetCore.Mvc.Routing.IUrlHelperFactory UrlHelperFactory
+@{
+    var urlHelper = UrlHelperFactory.GetUrlHelper(ViewContext);
+    var currentPath = ViewContext.HttpContext.Request.Path.Value?.ToLowerInvariant() ?? string.Empty;
+}
+<aside class="app-sidebar d-flex flex-column align-items-stretch">
+    <div class="sidebar-logo text-center py-4">
+        <span class="fw-bold text-uppercase tracking-wide text-white">Fleet<span class="text-azure">Command</span></span>
+    </div>
+    <div class="flex-grow-1 overflow-auto px-3">
+        @(Html.DevExtreme().NavigationBar()
+            .Items(items =>
+            {
+                items.Add()
+                    .Text("Dashboard")
+                    .Icon("home")
+                    .Option("href", urlHelper.Page("/Index"))
+                    .Option("selected", currentPath == "/" || currentPath == "/index");
+                items.Add()
+                    .Text("Settings")
+                    .Icon("preferences")
+                    .Option("href", urlHelper.Page("/Settings"))
+                    .Option("selected", currentPath.Contains("settings"));
+                items.Add()
+                    .Text("Auto Services")
+                    .Icon("car")
+                    .Option("href", urlHelper.Page("/AutoServices"))
+                    .Option("selected", currentPath.Contains("autoservices"));
+            })
+            .StylingMode(NavigationBarStylingMode.Highlight)
+            .SelectionMode(NavigationBarSelectionMode.Single)
+            .ElementAttr("class", "sidebar-nav")
+            .HoverStateEnabled(true)
+        )
+    </div>
+    <div class="sidebar-footer text-center text-white-50 small py-3">
+        <span>&copy; @DateTime.UtcNow.Year Fleet Command Center</span>
+    </div>
+</aside>
