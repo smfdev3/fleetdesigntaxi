@@ -1,0 +1,32 @@
+@page
+@model FleetDesignTaxi.Pages.SettingsModel
+
+<section class="fade-in">
+    <div class="row g-4">
+        @foreach (var section in Model.Sections)
+        {
+            <div class="col-12 col-md-6 col-xl-3 d-flex">
+                <div class="glass-card w-100 settings-panel">
+                    <header class="card-header-accent">
+                        <span class="accent-dot accent-@section.Accent"></span>
+                        <div>
+                            <h2 class="h6 text-white mb-1">@section.Title</h2>
+                            <p class="text-white-50 mb-0 small">@section.Description</p>
+                        </div>
+                    </header>
+                    <ul class="list-unstyled vstack gap-2 mb-0">
+                        @foreach (var link in section.Links)
+                        {
+                            <li>
+                                <a class="card-link" href="@link.Url">
+                                    <i class="bi @link.IconClass" aria-hidden="true"></i>
+                                    <span>@link.Label</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</section>

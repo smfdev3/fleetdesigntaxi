@@ -1,0 +1,34 @@
+@{
+    var currentPath = ViewContext.HttpContext.Request.Path.Value?.TrimEnd('/')?.ToLowerInvariant() ?? string.Empty;
+    if (string.IsNullOrWhiteSpace(currentPath))
+    {
+        currentPath = "/";
+    }
+
+    var navigation = new[]
+    {
+        new { Title = "Dashboard", Icon = "bi-speedometer2", Page = "/Index", Matches = new []{"/", "/index"} },
+        new { Title = "Settings", Icon = "bi-sliders", Page = "/Settings", Matches = new []{"/settings"} },
+        new { Title = "Auto Services", Icon = "bi-ev-front", Page = "/AutoServices", Matches = new []{"/autoservices"} }
+    };
+}
+<aside id="sidebarPanel" class="app-sidebar d-flex flex-column align-items-stretch">
+    <div class="sidebar-logo text-center py-4">
+        <span class="fw-bold text-uppercase tracking-wide text-white">Fleet<span class="text-azure">Command</span></span>
+    </div>
+    <div class="flex-grow-1 overflow-auto px-3">
+        <nav class="sidebar-nav nav flex-column gap-2" aria-label="Primary">
+            @foreach (var item in navigation)
+            {
+                var isActive = Array.IndexOf(item.Matches, currentPath) >= 0;
+                <a asp-page="@item.Page" class="nav-link sidebar-link @(isActive ? "active" : string.Empty)" aria-current="@(isActive ? "page" : null)">
+                    <i class="bi @item.Icon" aria-hidden="true"></i>
+                    <span>@item.Title</span>
+                </a>
+            }
+        </nav>
+    </div>
+    <div class="sidebar-footer text-center text-white-50 small py-3">
+        <span>&copy; @DateTime.UtcNow.Year Fleet Command Center</span>
+    </div>
+</aside>
