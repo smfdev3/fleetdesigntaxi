@@ -1,0 +1,10 @@
+@page
+@model Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+@{
+    ViewData["Title"] = "Error";
+}
+<div class="container py-5 text-center text-white">
+    <h1 class="display-5 fw-bold">Something went wrong</h1>
+    <p class="lead text-white-50">Our engineers have been notified. Please retry the action.</p>
+    <a class="btn btn-azure" href="@Url.Page("/Index")">Return to Dashboard</a>
+</div>

@@ -1,0 +1,355 @@
+/*
+    Global visual system for Fleet Command Center
+    -------------------------------------------------
+    - Dark navy gradient backdrop with glass morphism panels
+    - DevExpress components color overrides
+*/
+:root {
+    --color-background-start: #0C1F2D;
+    --color-background-end: #1E3A5F;
+    --color-layer-dark: #2C3E50;
+    --color-layer-soft: #34495E;
+    --color-azure: #2F80ED;
+    --color-emerald: #27AE60;
+    --color-amber: #F2C94C;
+    --color-text: #ECF0F1;
+    --transition-base: 200ms ease;
+    font-size: 16px;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--color-background-start), var(--color-background-end));
+    color: var(--color-text);
+}
+
+body.app-shell {
+    margin: 0;
+    display: flex;
+}
+
+.app-wrapper {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.app-sidebar {
+    width: 260px;
+    background: linear-gradient(160deg, rgba(12, 31, 45, 0.95), rgba(30, 58, 95, 0.88));
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 25px rgba(12, 31, 45, 0.6);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-logo {
+    letter-spacing: 0.28em;
+    text-shadow: 0 0 10px rgba(47, 128, 237, 0.4);
+}
+
+.text-azure {
+    color: var(--color-azure) !important;
+}
+
+.sidebar-nav .dx-nav-item-text {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.sidebar-nav .dx-nav-item-content {
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+    padding: 0.9rem 1rem;
+    transition: background-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.sidebar-nav .dx-nav-item-content:hover {
+    background: rgba(47, 128, 237, 0.18);
+    box-shadow: inset 0 0 0 1px rgba(47, 128, 237, 0.35), 0 8px 20px rgba(12, 31, 45, 0.45);
+    transform: translateX(4px);
+}
+
+.sidebar-nav .dx-nav-item-selected .dx-nav-item-content {
+    background: rgba(39, 174, 96, 0.25);
+    border-left: 4px solid var(--color-emerald);
+    box-shadow: inset 0 0 0 1px rgba(39, 174, 96, 0.35);
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.app-main {
+    background: linear-gradient(160deg, rgba(12, 31, 45, 0.85), rgba(30, 58, 95, 0.95));
+    backdrop-filter: blur(12px);
+}
+
+.app-header {
+    background: rgba(44, 62, 80, 0.65);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 12px 35px rgba(12, 31, 45, 0.45);
+}
+
+.app-content {
+    background: transparent;
+}
+
+.badge.bg-azure {
+    background-color: rgba(47, 128, 237, 0.2);
+    color: var(--color-azure);
+    border: 1px solid rgba(47, 128, 237, 0.4);
+}
+
+.avatar-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(47, 128, 237, 0.75), rgba(39, 174, 96, 0.75));
+    color: #fff;
+    font-weight: 600;
+}
+
+.glass-card {
+    position: relative;
+    border-radius: 20px;
+    background: linear-gradient(145deg, rgba(44, 62, 80, 0.68), rgba(52, 73, 94, 0.55));
+    box-shadow: 0 25px 45px rgba(12, 31, 45, 0.4);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 35px 55px rgba(12, 31, 45, 0.55);
+}
+
+.card-header-accent {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.card-header-accent .accent-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+}
+
+.card-link {
+    color: inherit;
+    position: relative;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color var(--transition-base);
+}
+
+.card-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-base);
+}
+
+.card-link:hover::after {
+    transform: scaleX(1);
+}
+
+.card-link .dx-icon {
+    font-size: 0.85rem;
+}
+
+.table-glass {
+    background: rgba(12, 31, 45, 0.55);
+    border-radius: 20px;
+    padding: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 38px rgba(12, 31, 45, 0.35);
+}
+
+.dx-datagrid-headers {
+    background-color: rgba(12, 31, 45, 0.75) !important;
+    color: var(--color-text) !important;
+}
+
+.dx-datagrid .dx-row-alt {
+    background-color: rgba(44, 62, 80, 0.4) !important;
+}
+
+.dx-datagrid .dx-data-row:hover {
+    background-color: rgba(47, 128, 237, 0.16) !important;
+    box-shadow: inset 0 0 0 1px rgba(47, 128, 237, 0.35);
+}
+
+.dx-datagrid .dx-row > td {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: var(--color-text);
+}
+
+.dx-datagrid .dx-datagrid-rowsview .dx-row:hover td {
+    transition: background-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+.status-active {
+    background: rgba(39, 174, 96, 0.25);
+    color: #7ee0a7;
+    box-shadow: inset 0 0 0 1px rgba(39, 174, 96, 0.45);
+}
+
+.status-archived {
+    background: rgba(52, 73, 94, 0.35);
+    color: #aeb9c6;
+    box-shadow: inset 0 0 0 1px rgba(52, 73, 94, 0.55);
+}
+
+.status-inactive {
+    background: rgba(242, 201, 76, 0.25);
+    color: #f9d87f;
+    box-shadow: inset 0 0 0 1px rgba(242, 201, 76, 0.45);
+}
+
+.revenue-chart-container {
+    height: 320px;
+}
+
+.revenue-chart-container .dx-chart-series {
+    filter: drop-shadow(0 20px 40px rgba(39, 174, 96, 0.25));
+}
+
+.dx-theme-material-typography {
+    font-family: inherit !important;
+}
+
+.link-muted {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.fade-in {
+    animation: fadeIn 350ms ease-in forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 1045;
+        transform: translateX(-100%);
+        transition: transform var(--transition-base);
+    }
+}
+
+.accent-azure {
+    background: var(--color-azure);
+    box-shadow: 0 0 12px rgba(47, 128, 237, 0.45);
+}
+
+.accent-emerald {
+    background: var(--color-emerald);
+    box-shadow: 0 0 12px rgba(39, 174, 96, 0.45);
+}
+
+.accent-amber {
+    background: var(--color-amber);
+    box-shadow: 0 0 12px rgba(242, 201, 76, 0.35);
+}
+
+.badge.bg-emerald {
+    background-color: rgba(39, 174, 96, 0.25);
+    color: var(--color-text);
+    border: 1px solid rgba(39, 174, 96, 0.45);
+}
+
+.sidebar-open {
+    transform: translateX(0) !important;
+}
+
+.btn-azure {
+    background: linear-gradient(135deg, rgba(47, 128, 237, 0.85), rgba(47, 128, 237, 0.65));
+    border-color: rgba(47, 128, 237, 0.9);
+    transition: background var(--transition-base), box-shadow var(--transition-base);
+}
+
+.btn-azure:hover {
+    background: linear-gradient(135deg, rgba(47, 128, 237, 1), rgba(39, 174, 96, 0.85));
+    box-shadow: 0 10px 20px rgba(47, 128, 237, 0.35);
+}
+
+.autoservice-row {
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.autoservice-row.hover-actions {
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 0 1px rgba(39, 174, 96, 0.35);
+}
+
+.autoservice-row .row-actions {
+    display: inline-flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.autoservice-row.hover-actions .row-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.autoservice-row .dx-button {
+    background: rgba(52, 73, 94, 0.65);
+    border-radius: 999px;
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text);
+    transition: background var(--transition-base), box-shadow var(--transition-base);
+}
+
+.autoservice-row .dx-button:hover {
+    background: rgba(39, 174, 96, 0.75);
+    box-shadow: 0 0 14px rgba(39, 174, 96, 0.45);
+}
+
+.tracking-wide {
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}

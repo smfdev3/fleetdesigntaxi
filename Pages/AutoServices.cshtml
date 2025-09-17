@@ -1,0 +1,77 @@
+@page
+@model FleetDesignTaxi.Pages.AutoServicesModel
+
+<section class="fade-in">
+    <div class="glass-card">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+            <div>
+                <h2 class="h4 text-white mb-1">Auto Services</h2>
+                <p class="text-white-50 mb-0">Monitor vendor performance, cadence and spend from a single command center.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-light">Export</button>
+                <button class="btn btn-azure text-white">Schedule Service</button>
+            </div>
+        </div>
+        <div class="table-glass">
+            @(Html.DevExtreme().DataGrid<FleetDesignTaxi.Models.AutoServiceEntry>()
+                .DataSource(Model.Services)
+                .ShowBorders(false)
+                .RowAlternationEnabled(true)
+                .ColumnAutoWidth(true)
+                .ColumnChooser(chooser => chooser.Enabled(true))
+                .FilterRow(row => row.Visible(true))
+                .SearchPanel(panel => panel.Visible(true).HighlightCaseSensitive(false))
+                .HeaderFilter(filter => filter.Visible(true))
+                .HoverStateEnabled(true)
+                .AllowColumnResizing(true)
+                .Paging(paging => paging.Enabled(true).PageSize(10))
+                .Pager(pager => pager.ShowPageSizeSelector(true).AllowedPageSizes(new[] { 10, 20, 50 }))
+                .Columns(columns =>
+                {
+                    columns.AddFor(m => m.Vendor).Caption("Vendor");
+                    columns.AddFor(m => m.ServiceType).Caption("Service Type");
+                    columns.AddFor(m => m.Vehicle).Caption("Vehicle");
+                    columns.AddFor(m => m.Registration).Caption("Registration");
+                    columns.AddFor(m => m.Contact).Caption("Contact");
+                    columns.AddFor(m => m.Email).Caption("Email").Width(220);
+                    columns.AddFor(m => m.Status)
+                        .Caption("Status")
+                        .CellTemplate(@<text>
+                            <span class="status-chip status-@(((string)data.Status).ToLowerInvariant().Replace(" ", string.Empty))">@data.Status</span>
+                        </text>);
+                    columns.AddFor(m => m.LastService).Caption("Last Service").Format("MMM dd, yyyy");
+                    columns.AddFor(m => m.NextService).Caption("Next Service").Format("MMM dd, yyyy");
+                    columns.AddFor(m => m.Cost).Caption("Cost").Format("currency");
+                    columns.Add()
+                        .Caption("Actions")
+                        .Alignment(DevExtreme.AspNet.Mvc.Builders.HorizontalAlignment.Center)
+                        .AllowSorting(false)
+                        .AllowFiltering(false)
+                        .CellTemplate(@<text>
+                            <div class="row-actions">
+                                <button class="dx-button dx-button-mode-contained dx-button-default" title="Edit">
+                                    <i class="dx-icon dx-icon-edit"></i>
+                                </button>
+                                <button class="dx-button dx-button-mode-contained dx-button-danger" title="Delete">
+                                    <i class="dx-icon dx-icon-trash"></i>
+                                </button>
+                            </div>
+                        </text>)
+                        .Width(120);
+                })
+                .OnRowPrepared("function(e) { if(e.rowType === 'data') { e.rowElement.addClass('autoservice-row'); } }")
+            )
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.autoservice-row').forEach(row => {
+                row.addEventListener('mouseenter', () => row.classList.add('hover-actions'));
+                row.addEventListener('mouseleave', () => row.classList.remove('hover-actions'));
+            });
+        });
+    </script>
+}

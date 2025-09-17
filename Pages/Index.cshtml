@@ -1,0 +1,125 @@
+@page
+@model FleetDesignTaxi.Pages.IndexModel
+
+<section class="row g-4 fade-in">
+    <article class="col-12 col-xl-6">
+        <div class="glass-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2 class="h5 text-white mb-1">Transaction Data</h2>
+                    <p class="text-white-50 small mb-0">Live trip outcomes across all premium routes</p>
+                </div>
+                <span class="badge bg-azure">Updated 5 min ago</span>
+            </div>
+            <div class="table-glass">
+                @(Html.DevExtreme().DataGrid<FleetDesignTaxi.Models.TransactionRecord>()
+                    .DataSource(Model.Transactions)
+                    .ShowBorders(false)
+                    .ShowRowLines(false)
+                    .ColumnAutoWidth(true)
+                    .ColumnHidingEnabled(true)
+                    .RowAlternationEnabled(true)
+                    .HoverStateEnabled(true)
+                    .HeaderFilter(headerFilter => headerFilter.Visible(true))
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(m => m.Route).Caption("Route").CssClass("text-white fw-semibold");
+                        columns.AddFor(m => m.Trips).Caption("Trips");
+                        columns.AddFor(m => m.Completed).Caption("Completed");
+                        columns.AddFor(m => m.Cancelled).Caption("Cancelled");
+                        columns.AddFor(m => m.Revenue).Caption("Revenue").Format("currency");
+                    })
+                )
+            </div>
+        </div>
+    </article>
+    <article class="col-12 col-xl-6">
+        <div class="glass-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2 class="h5 text-white mb-1">News</h2>
+                    <p class="text-white-50 small mb-0">Strategic announcements curated for operations leaders</p>
+                </div>
+                <a class="card-link link-muted" href="#">View all <i class="dx-icon dx-icon-chevronright"></i></a>
+            </div>
+            <div class="vstack gap-3">
+                @foreach (var news in Model.News)
+                {
+                    <div class="p-3 rounded-4" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05);">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="badge rounded-pill" style="background: rgba(47,128,237,0.2); color: var(--color-azure);">@news.Category</span>
+                            <small class="text-white-50">@news.PublishedOn.ToString("MMM dd")</small>
+                        </div>
+                        <h3 class="h6 text-white mt-2 mb-1">@news.Title</h3>
+                        <p class="text-white-50 mb-2">@news.Summary</p>
+                        <a class="card-link" href="@news.Link" target="_blank" rel="noopener">Read report <i class="dx-icon dx-icon-arrowright"></i></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </article>
+    <article class="col-12 col-xl-6">
+        <div class="glass-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2 class="h5 text-white mb-1">SMSs</h2>
+                    <p class="text-white-50 small mb-0">Critical communications across the fleet ecosystem</p>
+                </div>
+                <div class="badge bg-emerald text-uppercase">Synced</div>
+            </div>
+            <div class="table-glass">
+                @(Html.DevExtreme().DataGrid<FleetDesignTaxi.Models.SmsAlert>()
+                    .DataSource(Model.SmsAlerts)
+                    .ShowBorders(false)
+                    .ShowRowLines(false)
+                    .RowAlternationEnabled(true)
+                    .ColumnAutoWidth(true)
+                    .HoverStateEnabled(true)
+                    .Scrolling(scrolling => scrolling.Mode(DevExtreme.AspNet.Mvc.Builders.GridScrollingMode.Standard))
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(m => m.Recipient).Caption("Recipient");
+                        columns.AddFor(m => m.Category).Caption("Category");
+                        columns.AddFor(m => m.Message).Caption("Message").Width(240);
+                        columns.AddFor(m => m.Status).Caption("Status");
+                        columns.AddFor(m => m.SentAt).Caption("Sent").Format("HH:mm");
+                    })
+                )
+            </div>
+        </div>
+    </article>
+    <article class="col-12 col-xl-6">
+        <div class="glass-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2 class="h5 text-white mb-1">Revenue</h2>
+                    <p class="text-white-50 small mb-0">Rolling 12-month net revenue trend</p>
+                </div>
+                <a class="card-link link-muted" href="#">Download CSV <i class="dx-icon dx-icon-download"></i></a>
+            </div>
+            <div class="revenue-chart-container">
+                @(Html.DevExtreme().Chart()
+                    .Palette(new[] { "#2F80ED", "#27AE60" })
+                    .CommonSeriesSettings(settings => settings
+                        .ArgumentField("date")
+                        .ValueField("amount")
+                        .Type(DevExtreme.AspNet.Mvc.Builders.SeriesType.Area)
+                        .Opacity(0.85)
+                    )
+                    .Series(series =>
+                    {
+                        series.Add()
+                            .ArgumentField("date")
+                            .ValueField("amount")
+                            .Name("Revenue");
+                    })
+                    .ArgumentAxis(axis => axis.ArgumentType(DevExtreme.AspNet.Mvc.Builders.ChartDataType.DateTime))
+                    .ValueAxis(axis => axis.Label(label => label.Format("currency")))
+                    .Tooltip(tooltip => tooltip.Enabled(true).Format("currency").Shared(true))
+                    .DataSource(Model.RevenueSeries.Select(point => new { date = point.Date, amount = point.Amount }))
+                    .Animation(animation => animation.Easing(DevExtreme.AspNet.Mvc.Builders.ChartAnimationEasing.InOutQuad).Duration(800))
+                )
+            </div>
+        </div>
+    </article>
+</section>
